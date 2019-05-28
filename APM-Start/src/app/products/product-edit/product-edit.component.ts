@@ -83,7 +83,6 @@ export class ProductEditComponent implements OnInit {
       this.messageService.addMessage(message);
     }
 
-    // Navigate back to the product list
   }
 
   ngOnInit(): void {
