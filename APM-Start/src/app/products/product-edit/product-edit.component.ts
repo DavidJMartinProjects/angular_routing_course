@@ -73,8 +73,7 @@ export class ProductEditComponent implements OnInit {
           .subscribe(
             () => this.onSaveComplete(`The updated ${this.product.productName} was saved`),
             (error: any) => this.errorMessage = <any>error
-          );
-          this.router.navigate(['/products']);
+          );          
       }
     } else {
       this.errorMessage = 'Please correct the validation errors.';
@@ -85,7 +84,7 @@ export class ProductEditComponent implements OnInit {
     if (message) {
       this.messageService.addMessage(message);
     }
-
+    this.router.navigate(['/products']);
   }
 
   ngOnInit(): void {
