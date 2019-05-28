@@ -4,7 +4,7 @@ import { MessageService } from '../../messages/message.service';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   templateUrl: './product-edit.component.html',
@@ -19,7 +19,8 @@ export class ProductEditComponent implements OnInit {
 
   constructor(private productService: ProductService,
               private messageService: MessageService,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   getProduct(id: number): void {
     this.productService.getProduct(id)
@@ -54,6 +55,7 @@ export class ProductEditComponent implements OnInit {
             () => this.onSaveComplete(`${this.product.productName} was deleted`),
             (error: any) => this.errorMessage = <any>error
           );
+          this.router.navigate(['/products']);
       }
     }
   }
@@ -72,6 +74,7 @@ export class ProductEditComponent implements OnInit {
             () => this.onSaveComplete(`The updated ${this.product.productName} was saved`),
             (error: any) => this.errorMessage = <any>error
           );
+          this.router.navigate(['/products']);
       }
     } else {
       this.errorMessage = 'Please correct the validation errors.';
@@ -86,7 +89,11 @@ export class ProductEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = +this.activatedRoute.snapshot.paramMap.get('id');
-    this.getProduct(id);
+    this.activatedRoute.paramMap.subscribe(
+      params => {
+        const id = +params.get('id');
+        this.getProduct(id);
+      }
+    );
   }
 }
